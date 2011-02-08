@@ -225,6 +225,7 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         mytextclock,
         s == 1 and mysystray or nil,
+        mpdwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -234,7 +235,9 @@ for s = 1, screen.count() do
     mywibox_down[s].widgets = {
       {
         layout = awful.widget.layout.horizontal.leftright,
-        cpuwidget
+        cpuwidget,
+        cputext,
+        cpufreqwidget
       },
       spacer,
       memwidget,
