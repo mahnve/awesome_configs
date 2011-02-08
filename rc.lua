@@ -319,7 +319,14 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end)
+              end),
+
+    awful.key({ modkey,           }, "p",      function () awful.util.spawn("dmenu_run")  end),
+
+    awful.key({ }, "XF86AudioPlay",            function () awful.util.spawn("mpc toggle")  end),
+    awful.key({ }, "XF86AudioStop",            function () awful.util.spawn("mpc stop")    end),
+    awful.key({ }, "XF86AudioNext",            function () awful.util.spawn("mpc next")  end),
+    awful.key({ }, "XF86AudioPrev",            function () awful.util.spawn("mpc prev")  end)
 )
 
 clientkeys = awful.util.table.join(
@@ -394,7 +401,8 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons,
+                     size_hints_honor = false } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
