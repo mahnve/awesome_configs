@@ -85,12 +85,12 @@ mysystray = widget({ type = "systray" })
 --
 -- {{{ Reusable separator
 separator = widget({ type = "imagebox" })
-separator.image = image(beautiful.widget_sep)
+separator.image = image('/home/mahnve/.config/awesome/icons/separator.png')
 -- }}}
 
 -- {{{ CPU usage and temperature
 cpuicon = widget({ type = "imagebox" })
-cpuicon.image = image(beautiful.widget_cpu)
+cpuicon.image = image('/home/mahnve/.config/awesome/icons/cpu.png')
 -- Initialize widgets
 
 cpuwidget = widget({ type="textbox"})
@@ -153,6 +153,8 @@ wifiratewidget = widget({type="textbox"})
 vicious.register(wifiratewidget,vicious.widgets.net," down ${wlan0 down_kb} up ${wlan0 up_kb}")
 wifiipwidget = widget({type="textbox"})
 
+ethratewidget = widget({type="textbox"})
+vicious.register(ethratewidget,vicious.widgets.net," down ${eth0 down_kb} up ${eth0 up_kb}")
 -- Create a wibox for each screen and add it
 mywibox = {}
 mywibox_down = {}
@@ -235,9 +237,11 @@ for s = 1, screen.count() do
     mywibox_down[s].widgets = {
       {
         layout = awful.widget.layout.horizontal.leftright,
+        cpuicon,
         cpuwidget,
         cputext,
-        cpufreqwidget
+        cpufreqwidget,
+        separator
       },
       spacer,
       memwidget,
@@ -249,10 +253,12 @@ for s = 1, screen.count() do
       separator,
       batwidget,
       baticon,
-      spacer,
+      separator,
+      wifiratewidget,
       wifiwidget,
-      spacer,
       wifiicon,
+      separator,
+      ethratewidget,
       layout = awful.widget.layout.horizontal.rightleft
     }
     
@@ -329,7 +335,9 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioPlay",            function () awful.util.spawn("mpc toggle")  end),
     awful.key({ }, "XF86AudioStop",            function () awful.util.spawn("mpc stop")    end),
     awful.key({ }, "XF86AudioNext",            function () awful.util.spawn("mpc next")  end),
-    awful.key({ }, "XF86AudioPrev",            function () awful.util.spawn("mpc prev")  end)
+    awful.key({ }, "XF86AudioPrev",            function () awful.util.spawn("mpc prev")  end),
+    awful.key({ }, "XF86AudioLowerVolume",     function () awful.util.spawn("paminus.sh")  end),
+    awful.key({ }, "XF86AudioRaiseVolume",     function () awful.util.spawn("paplus.sh")  end)
 )
 
 clientkeys = awful.util.table.join(
