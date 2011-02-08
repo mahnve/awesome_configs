@@ -6,6 +6,7 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
+require("vicious")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -46,7 +47,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[2])
 end
 -- }}}
 
@@ -75,8 +76,86 @@ mytextclock = awful.widget.textclock({ align = "right" })
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
+
+-- CUSTOM
+--
+
+--
+-- {{{ Widgets configuration
+--
+-- {{{ Reusable separator
+separator = widget({ type = "imagebox" })
+separator.image = image(beautiful.widget_sep)
+-- }}}
+
+-- {{{ CPU usage and temperature
+cpuicon = widget({ type = "imagebox" })
+cpuicon.image = image(beautiful.widget_cpu)
+-- Initialize widgets
+
+cpuwidget = widget({ type="textbox"})
+
+-- {{{ Battery state
+baticon = widget({ type = "imagebox" })
+baticon.image = image('/home/mahnve/.config/awesome/icons/bat.png')
+
+-- Initialize widget
+batwidget = widget({ type = "textbox" })
+-- Register widget
+vicious.register(batwidget, vicious.widgets.bat, "$1$2%", u, "BAT0")
+-- }}}
+
+--cpu
+-- Initialize widget
+cpuwidget = awful.widget.graph()
+-- Graph properties
+cpuwidget:set_width(50)
+cpuwidget:set_background_color("#494B4F")
+cpuwidget:set_color("#FF5656")
+cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+
+cputext = widget({type="textbox"})
+vicious.register(cputext, vicious.widgets.cpu, "$2% $3% ")
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+ --
+
+--MPD
+mpdwidget = widget({type="textbox"})
+vicious.register(mpdwidget,vicious.widgets.mpd,"Playing: <span color='red'> ${Artist} - ${Title} : ${volume} </span> ")
+--
+
+-- Volume
+-- volumewidget = widget({type="textbox"})
+-- vicious.register(volumewidget, vicious.widgets.volume, "Vol: $1")
+
+
+cpufreqwidget = widget({type="textbox"})
+vicious.register(cpufreqwidget,vicious.widgets.cpufreq,"$2GHz:$5", 19, "cpu0")
+
+fsicon = widget({ type = "imagebox" })
+fsicon.image = image('/home/mahnve/.config/awesome/icons/disk.png')
+fswidget = widget({type="textbox"})
+vicious.register(fswidget,vicious.widgets.fs,"<span color='white'> /: ${/ used_p}% </span> ")
+
+memicon = widget({ type = "imagebox" })
+memicon.image = image('/home/mahnve/.config/awesome/icons/mem.png')
+memwidget = widget({ type = "textbox" })
+-- Register widget
+vicious.register(memwidget, vicious.widgets.mem, "<span color='white'> $1% ($2MB/$3MB) </span>", 13)
+
+
+wifiicon = widget({ type = "imagebox" })
+wifiicon.image = image('/home/mahnve/.config/awesome/icons/wifi.png')
+wifiwidget = widget({type="textbox"})
+vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 23, "wlan0")
+wifiratewidget = widget({type="textbox"})
+vicious.register(wifiratewidget,vicious.widgets.net," down ${wlan0 down_kb} up ${wlan0 up_kb}")
+wifiipwidget = widget({type="textbox"})
+
 -- Create a wibox for each screen and add it
 mywibox = {}
+mywibox_down = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -149,6 +228,31 @@ for s = 1, screen.count() do
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
+
+    mywibox_down[s] = awful.wibox({ position = "bottom", screen = s })
+
+    mywibox_down[s].widgets = {
+      {
+        layout = awful.widget.layout.horizontal.leftright,
+        cpuwidget
+      },
+      spacer,
+      memwidget,
+      memicon,   
+      separator,
+      fswidget,
+      spacer,
+      fsicon,
+      separator,
+      batwidget,
+      baticon,
+      spacer,
+      wifiwidget,
+      spacer,
+      wifiicon,
+      layout = awful.widget.layout.horizontal.rightleft
+    }
+    
 end
 -- }}}
 
