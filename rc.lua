@@ -122,7 +122,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 
 --MPD
 mpdwidget = widget({type="textbox"})
-vicious.register(mpdwidget,vicious.widgets.mpd,"Playing: <span color='red'> ${Artist} - ${Title} : ${volume} </span> ")
+vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='red'> ${Artist} - ${Title} : ${volume} </span> ")
 --
 
 -- Volume
@@ -152,6 +152,11 @@ vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 23, "wlan0"
 wifiratewidget = widget({type="textbox"})
 vicious.register(wifiratewidget,vicious.widgets.net," down ${wlan0 down_kb} up ${wlan0 up_kb}")
 wifiipwidget = widget({type="textbox"})
+
+weathericon = widget({type = "textbox" })
+weathericon.image = image('/home/mahnve/.config/awesome/icons/temp.png')
+weatherwidget = widget({type = "textbox"})
+vicious.register(weatherwidget, vicious.widgets.weather, "${tempc}° ", 71, "ESSB")
 
 ethratewidget = widget({type="textbox"})
 vicious.register(ethratewidget,vicious.widgets.net," down ${eth0 down_kb} up ${eth0 up_kb}")
@@ -228,6 +233,7 @@ for s = 1, screen.count() do
         mytextclock,
         s == 1 and mysystray or nil,
         mpdwidget,
+        weatherwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
