@@ -87,6 +87,9 @@ mysystray = widget({ type = "systray" })
 separator = widget({ type = "imagebox" })
 separator.image = image('/home/mahnve/.config/awesome/icons/separator.png')
 -- }}}
+--
+spacer = widget({ type = "textbox" })
+spacer.text = " "
 
 -- {{{ CPU usage and temperature
 cpuicon = widget({ type = "imagebox" })
@@ -126,8 +129,8 @@ vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='red'> ${Artist} - $
 --
 
 -- Volume
--- volumewidget = widget({type="textbox"})
--- vicious.register(volumewidget, vicious.widgets.volume, "Vol: $1")
+volumewidget = widget({type="textbox"})
+--vicious.register(volumewidget, vicious.widgets.volume, "Vol: $1", 17, "PCM")
 
 
 cpufreqwidget = widget({type="textbox"})
@@ -151,15 +154,35 @@ wifiwidget = widget({type="textbox"})
 vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 23, "wlan0")
 wifiratewidget = widget({type="textbox"})
 vicious.register(wifiratewidget,vicious.widgets.net," down ${wlan0 down_kb} up ${wlan0 up_kb}")
-wifiipwidget = widget({type="textbox"})
 
-weathericon = widget({type = "textbox" })
+weathericon = widget({type = "imagebox" })
 weathericon.image = image('/home/mahnve/.config/awesome/icons/temp.png')
 weatherwidget = widget({type = "textbox"})
 vicious.register(weatherwidget, vicious.widgets.weather, "${tempc}° ", 71, "ESSB")
 
 ethratewidget = widget({type="textbox"})
 vicious.register(ethratewidget,vicious.widgets.net," down ${eth0 down_kb} up ${eth0 up_kb}")
+
+diowidget = widget({type="textbox"})
+vicious.register(diowidget,vicious.widgets.dio," write ${write_mb} read ${read_mb}", 11, "sda")
+
+mailicon = widget({type = "imagebox" })
+mailicon.image = image('/home/mahnve/.config/awesome/icons/mail.png')
+mailwidget = widget({type="textbox"})
+vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 43, {"/home/mahnve/Mail/Ahnve", "home/mahnve/Mail/Valtech"})
+
+pacmanicon = widget({type = "imagebox" })
+pacmanicon.image = image('/home/mahnve/.config/awesome/icons/pacman.png')
+pacmanwidget = widget({type="textbox"})
+vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 87, "Arch")
+
+ethipwidget = widget({type='textbox'})
+vicious.register(ethipwidget,vicious.contrib.ip,"$1", 89, "eth0")
+
+wlanipwidget = widget({type='textbox'})
+vicious.register(wlanipwidget,vicious.contrib.ip,"$1", 89, "wlan0")
+
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mywibox_down = {}
@@ -234,6 +257,7 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         mpdwidget,
         weatherwidget,
+        weathericon,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -253,6 +277,7 @@ for s = 1, screen.count() do
       memwidget,
       memicon,   
       separator,
+      diowidget,
       fswidget,
       spacer,
       fsicon,
@@ -261,10 +286,19 @@ for s = 1, screen.count() do
       baticon,
       separator,
       wifiratewidget,
+      wlanipwidget,
+      spacer,
       wifiwidget,
       wifiicon,
       separator,
       ethratewidget,
+      ethipwidget,
+      separator,
+      mailwidget,
+      mailicon,
+      separator,
+      pacmanwidget,
+      pacmanicon,
       layout = awful.widget.layout.horizontal.rightleft
     }
     
