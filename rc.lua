@@ -133,7 +133,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 musicicon = widget({ type = "imagebox" })
 musicicon.image = image('/home/mahnve/.config/awesome/icons/music.png')
 mpdwidget = widget({type="textbox"})
-vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='red'> ${Artist} - ${Title} : ${volume} </span> ")
+vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='#ff6050'> ${Artist} - ${Title} : ${volume} </span> ")
 --
 
 -- Volume
@@ -186,7 +186,7 @@ vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 241, {"/home/mahnve/M
 pacmanicon = widget({type = "imagebox" })
 pacmanicon.image = image('/home/mahnve/.config/awesome/icons/pacman.png')
 pacmanwidget = widget({type="textbox"})
-vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 3599, "Arch")
+vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 187, "Arch")
 
 
 wlanipwidget = widget({type='textbox'})
