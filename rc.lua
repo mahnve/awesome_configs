@@ -118,9 +118,9 @@ vicious.register(batwidget, vicious.widgets.bat, "$1$2%", u, "BAT0")
 cpuwidget = awful.widget.graph()
 -- Graph properties
 cpuwidget:set_width(50)
-cpuwidget:set_background_color("#494B4F")
+cpuwidget:set_background_color("#000000")
 cpuwidget:set_color("#FF5656")
-cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+cpuwidget:set_gradient_colors({ "#FF6050", "#66d077", "#AECF96" })
 
 cputext = widget({type="textbox"})
 vicious.register(cputext, vicious.widgets.cpu, "$2% $3% ")
