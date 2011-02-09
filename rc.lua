@@ -91,6 +91,11 @@ separator.image = image('/home/mahnve/.config/awesome/icons/separator.png')
 spacer = widget({ type = "textbox" })
 spacer.text = " "
 
+upicon = widget({ type = "imagebox" })
+upicon.image = image('/home/mahnve/.config/awesome/icons/up.png')
+downicon = widget({ type = "imagebox" })
+downicon.image = image('/home/mahnve/.config/awesome/icons/down.png')
+
 -- {{{ CPU usage and temperature
 cpuicon = widget({ type = "imagebox" })
 cpuicon.image = image('/home/mahnve/.config/awesome/icons/cpu.png')
@@ -124,6 +129,9 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
  --
 
 --MPD
+
+musicicon = widget({ type = "imagebox" })
+musicicon.image = image('/home/mahnve/.config/awesome/icons/music.png')
 mpdwidget = widget({type="textbox"})
 vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='red'> ${Artist} - ${Title} : ${volume} </span> ")
 --
@@ -151,33 +159,35 @@ vicious.register(memwidget, vicious.widgets.mem, "<span color='white'> $1% ($2MB
 wifiicon = widget({ type = "imagebox" })
 wifiicon.image = image('/home/mahnve/.config/awesome/icons/wifi.png')
 wifiwidget = widget({type="textbox"})
-vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 23, "wlan0")
+vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 27, "wlan0")
 wifiratewidget = widget({type="textbox"})
-vicious.register(wifiratewidget,vicious.widgets.net," down ${wlan0 down_kb} up ${wlan0 up_kb}")
+vicious.register(wifiratewidget,vicious.widgets.net,"${wlan0 down_kb} ${wlan0 up_kb}")
 
 weathericon = widget({type = "imagebox" })
 weathericon.image = image('/home/mahnve/.config/awesome/icons/temp.png')
 weatherwidget = widget({type = "textbox"})
-vicious.register(weatherwidget, vicious.widgets.weather, "${tempc}° ", 71, "ESSB")
+vicious.register(weatherwidget, vicious.widgets.weather, "${tempc}° ", 299, "ESSB")
 
+ethicon = widget({type='imagebox'})
+ethicon.image = image('/home/mahnve/.config/awesome/icons/sat.png')
 ethratewidget = widget({type="textbox"})
-vicious.register(ethratewidget,vicious.widgets.net," down ${eth0 down_kb} up ${eth0 up_kb}")
+vicious.register(ethratewidget,vicious.widgets.net,"${eth0 down_kb} ${eth0 up_kb}")
+ethipwidget = widget({type='textbox'})
+vicious.register(ethipwidget,vicious.contrib.ip,"$1", 23, "eth0")
 
 diowidget = widget({type="textbox"})
-vicious.register(diowidget,vicious.widgets.dio," write ${write_mb} read ${read_mb}", 11, "sda")
+vicious.register(diowidget,vicious.widgets.dio,"${write_mb} ${read_mb}", 11, "sda")
 
 mailicon = widget({type = "imagebox" })
 mailicon.image = image('/home/mahnve/.config/awesome/icons/mail.png')
 mailwidget = widget({type="textbox"})
-vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 43, {"/home/mahnve/Mail/Ahnve", "home/mahnve/Mail/Valtech"})
+vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 241, {"/home/mahnve/Mail/Ahnve", "home/mahnve/Mail/Valtech"})
 
 pacmanicon = widget({type = "imagebox" })
 pacmanicon.image = image('/home/mahnve/.config/awesome/icons/pacman.png')
 pacmanwidget = widget({type="textbox"})
-vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 87, "Arch")
+vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 3599, "Arch")
 
-ethipwidget = widget({type='textbox'})
-vicious.register(ethipwidget,vicious.contrib.ip,"$1", 89, "eth0")
 
 wlanipwidget = widget({type='textbox'})
 vicious.register(wlanipwidget,vicious.contrib.ip,"$1", 89, "wlan0")
@@ -256,6 +266,8 @@ for s = 1, screen.count() do
         mytextclock,
         s == 1 and mysystray or nil,
         mpdwidget,
+        musicicon,
+        separator,
         weatherwidget,
         weathericon,
         mytasklist[s],
@@ -269,6 +281,7 @@ for s = 1, screen.count() do
         layout = awful.widget.layout.horizontal.leftright,
         cpuicon,
         cpuwidget,
+        spacer,
         cputext,
         cpufreqwidget,
         separator
@@ -277,7 +290,9 @@ for s = 1, screen.count() do
       memwidget,
       memicon,   
       separator,
+      upicon,
       diowidget,
+      downicon,
       fswidget,
       spacer,
       fsicon,
@@ -285,14 +300,19 @@ for s = 1, screen.count() do
       batwidget,
       baticon,
       separator,
+      upicon,
       wifiratewidget,
+      downicon,
       wlanipwidget,
       spacer,
       wifiwidget,
       wifiicon,
       separator,
+      upicon,
       ethratewidget,
+      downicon,
       ethipwidget,
+      ethicon,
       separator,
       mailwidget,
       mailicon,
