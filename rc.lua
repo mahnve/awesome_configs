@@ -192,6 +192,17 @@ vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 187, "Arch")
 wlanipwidget = widget({type='textbox'})
 vicious.register(wlanipwidget,vicious.contrib.ip,"$1", 89, "wlan0")
 
+orgicon = widget({type = "imagebox" })
+orgicon.image = image('/home/mahnve/.config/awesome/icons/cal.png')
+orgwidget = widget({type="textbox"})
+vicious.register(orgwidget,vicious.widgets.org,"$1/$2/$3/$4", 7, {'/home/mahnve/org/todo.org',
+                                                                  '/home/mahnve/org/ngm.org',
+                                                                  '/home/mahnve/org/valtech.org',
+                                                                  '/home/mahnve/org/agilasverige.org',
+                                                                  '/home/mahnve/org/blog.org'
+                                                                }  )
+
+
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -287,6 +298,9 @@ for s = 1, screen.count() do
         separator
       },
       spacer,
+      batwidget,
+      baticon,
+      separator,
       memwidget,
       memicon,   
       separator,
@@ -296,9 +310,6 @@ for s = 1, screen.count() do
       fswidget,
       spacer,
       fsicon,
-      separator,
-      batwidget,
-      baticon,
       separator,
       upicon,
       wifiratewidget,
@@ -319,6 +330,9 @@ for s = 1, screen.count() do
       separator,
       pacmanwidget,
       pacmanicon,
+      orgwidget,
+      spacer,
+      orgicon,
       layout = awful.widget.layout.horizontal.rightleft
     }
     
