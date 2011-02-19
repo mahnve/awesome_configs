@@ -15,12 +15,12 @@ theme.wallpaper_cmd = { "awsetbg /home/mahnve/pictures/images/wallpapers/road.jp
 theme.font      = "profont 8"
 
 -- {{{ Colors
-theme.fg_normal = "#DCDCCC"
-theme.fg_focus  = "#F0DFAF"
-theme.fg_urgent = "#CC9393"
+theme.fg_normal = "#FFFFFF"
+theme.fg_focus  = "#4093CC"
+theme.fg_urgent = "#FFFFFF"
 theme.bg_normal = "#000000"
-theme.bg_focus  = "#1E2320"
-theme.bg_urgent = "#3F3F3F"
+theme.bg_focus  = "#000000"
+theme.bg_urgent = "#FF6050"
 -- }}}
 
 -- {{{ Borders
@@ -31,8 +31,8 @@ theme.border_marked = "#CC9393"
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#3F3F3F"
-theme.titlebar_bg_normal = "#3F3F3F"
+theme.titlebar_bg_focus  = "#4093CC"
+theme.titlebar_bg_normal = "#4093CC"
 -- }}}
 
 -- There are other variable sets

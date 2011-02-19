@@ -173,7 +173,7 @@ ethicon.image = image('/home/mahnve/.config/awesome/icons/sat.png')
 ethratewidget = widget({type="textbox"})
 vicious.register(ethratewidget,vicious.widgets.net,"${eth0 down_kb} ${eth0 up_kb}")
 ethipwidget = widget({type='textbox'})
-vicious.register(ethipwidget,vicious.contrib.ip,"$1", 23, "eth0")
+vicious.register(ethipwidget,vicious.contrib.ip,"$1", 3, "eth0")
 
 diowidget = widget({type="textbox"})
 vicious.register(diowidget,vicious.widgets.dio,"${write_mb} ${read_mb}", 11, "sda")
@@ -190,7 +190,7 @@ vicious.register(pacmanwidget,vicious.widgets.pkg," $1", 187, "Arch")
 
 
 wlanipwidget = widget({type='textbox'})
-vicious.register(wlanipwidget,vicious.contrib.ip,"$1", 89, "wlan0")
+vicious.register(wlanipwidget,vicious.contrib.ip,"$1", 3, "wlan0")
 
 orgicon = widget({type = "imagebox" })
 orgicon.image = image('/home/mahnve/.config/awesome/icons/cal.png')
@@ -380,7 +380,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -396,7 +396,7 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
-    awful.key({ modkey }, "x",
+    awful.key({ modkey }, "c",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
                   mypromptbox[mouse.screen].widget,
@@ -416,7 +416,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey,           }, "x",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
