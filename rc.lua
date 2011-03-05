@@ -10,7 +10,7 @@ require("vicious")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/mahnve/.config/awesome/themes/custom/theme.lua")
+beautiful.init("/home/mahnve/.config/awesome/themes/molokai/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
@@ -27,18 +27,18 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
 {
-    awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+    awful.layout.suit.floating,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.magnifier,
+    awful.layout.suit.spiral,
+    awful.layout.suit.spiral.dwindle
 }
 -- }}}
 
@@ -47,7 +47,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[2])
+    tags[s] = awful.tag({ 'term', 'ssh', 'dev', 'web', 'irc', 'graph', 'media', 'misc', 'mail' }, s, layouts[1])
 end
 -- }}}
 
@@ -72,6 +72,9 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
+
+clockicon = widget({ type = "imagebox"})
+clockicon.image = image('/home/mahnve/.config/awesome/icons/time.png')
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -133,7 +136,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 musicicon = widget({ type = "imagebox" })
 musicicon.image = image('/home/mahnve/.config/awesome/icons/music.png')
 mpdwidget = widget({type="textbox"})
-vicious.register(mpdwidget,vicious.widgets.mpd,"<span color='#ff6050'> ${Artist} - ${Title} : ${volume} </span> ")
+vicious.register(mpdwidget,vicious.widgets.mpd," ${Artist} - ${Title} : ${volume} ")
 --
 
 -- Volume
@@ -147,7 +150,7 @@ vicious.register(cpufreqwidget,vicious.widgets.cpufreq,"$2GHz:$5", 19, "cpu0")
 fsicon = widget({ type = "imagebox" })
 fsicon.image = image('/home/mahnve/.config/awesome/icons/disk.png')
 fswidget = widget({type="textbox"})
-vicious.register(fswidget,vicious.widgets.fs,"<span color='white'> /: ${/ used_p}% </span> ")
+vicious.register(fswidget,vicious.widgets.fs,"/: ${/ used_p}% /home: ${/home used_p}% ")
 
 memicon = widget({ type = "imagebox" })
 memicon.image = image('/home/mahnve/.config/awesome/icons/mem.png')
@@ -159,7 +162,7 @@ vicious.register(memwidget, vicious.widgets.mem, "<span color='white'> $1% ($2MB
 wifiicon = widget({ type = "imagebox" })
 wifiicon.image = image('/home/mahnve/.config/awesome/icons/wifi.png')
 wifiwidget = widget({type="textbox"})
-vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 27, "wlan0")
+vicious.register(wifiwidget,vicious.widgets.wifi,"${ssid} ${linp}%", 5, "wlan0")
 wifiratewidget = widget({type="textbox"})
 vicious.register(wifiratewidget,vicious.widgets.net,"${wlan0 down_kb} ${wlan0 up_kb}")
 
@@ -176,7 +179,7 @@ ethipwidget = widget({type='textbox'})
 vicious.register(ethipwidget,vicious.contrib.ip,"$1", 3, "eth0")
 
 diowidget = widget({type="textbox"})
-vicious.register(diowidget,vicious.widgets.dio,"${write_mb} ${read_mb}", 11, "sda")
+vicious.register(diowidget,vicious.widgets.dio,"${write_mb} ${read_mb}", 3, "sda")
 
 mailicon = widget({type = "imagebox" })
 mailicon.image = image('/home/mahnve/.config/awesome/icons/mail.png')
@@ -275,6 +278,7 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
+        clockicon,
         s == 1 and mysystray or nil,
         mpdwidget,
         musicicon,
@@ -416,7 +420,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,           }, "x",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Shift"   }, "x",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
