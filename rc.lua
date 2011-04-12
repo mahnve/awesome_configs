@@ -7,6 +7,8 @@ require("beautiful")
 -- Notification library
 require("naughty")
 require("vicious")
+require("revelation")
+-- require("pomodoro")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -80,6 +82,113 @@ clockicon.image = image('/home/mahnve/.config/awesome/icons/time.png')
 mysystray = widget({ type = "systray" })
 
 
+
+
+
+
+
+
+
+
+
+
+-- Author: François de Metz
+
+local widget    = widget
+local image     = image
+local timer     = timer
+require("math")
+
+-- 25 min
+local pomodoro_time = 60 * 25
+
+--local pomodoro_image_path = beautiful.pomodoro_icon or awful.util.getdir("config") .."/pomodoro.png"
+
+-- setup widget
+local pomodoro_image = image('/home/mahnve/.config/awesome/pomodoro.png')
+
+pomodoro = widget({ type = "imagebox" })
+pomodoro.image = pomodoro_image
+
+pomodoro_text = widget({type="textbox"})
+
+-- setup timers
+local pomodoro_timer = timer({ timeout = pomodoro_time })
+local pomodoro_tooltip_timer = timer({ timeout = 1 })
+local pomodoro_nbsec = 0
+
+local function pomodoro_start()
+    pomodoro_timer:start()
+    pomodoro_tooltip_timer:start()
+    pomodoro.bg    = beautiful.bg_normal
+ end
+
+local function pomodoro_stop()
+   pomodoro_timer:stop(pomodoro_timer)
+   pomodoro_tooltip_timer:stop(pomodoro_tooltip_timer)
+   pomodoro_nbsec = 0
+end
+
+local function pomodoro_end()
+    pomodoro_stop()
+    pomodoro.bg    = beautiful.bg_urgent
+end
+
+local function pomodoro_notify(text)
+   naughty.notify({ title = "Pomodoro", text = text, timeout = 10,      
+                    icon = pomodoro_image_path, icon_size = 64,
+                    width = 200
+                 })
+end
+
+pomodoro_timer:add_signal("timeout", function(c) 
+                                          pomodoro_end()
+                                          pomodoro_notify('Ended')  
+                                       end)
+
+pomodoro_tooltip_timer:add_signal("timeout", function(c) 
+                                             pomodoro_nbsec = pomodoro_nbsec + 1
+                                       end)
+
+pomodoro_tooltip = awful.tooltip({
+                                    objects = { pomodoro },
+                                    timer_function = function()
+                                      if pomodoro_timer.started then
+                                          r = (pomodoro_time - pomodoro_nbsec) % 60
+                                          return math.floor((pomodoro_time - pomodoro_nbsec) / 60) .. ':' .. r
+                                      else
+                                          return 'pomodoro not started'
+                                      end
+                                    end,
+                                  })
+
+local function pomodoro_start_timer()
+   if not pomodoro_timer.started then
+      pomodoro_start()
+      pomodoro_notify('Started')
+   else
+      pomodoro_stop()
+      pomodoro_notify('Canceled')
+   end
+end
+
+pomodoro:buttons(awful.util.table.join(
+                    awful.button({ }, 1, pomodoro_start_timer)
+              ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- CUSTOM
 --
 
@@ -117,19 +226,8 @@ vicious.register(batwidget, vicious.widgets.bat, "$1$2%", u, "BAT0")
 -- }}}
 
 --cpu
--- Initialize widget
-cpuwidget = awful.widget.graph()
--- Graph properties
-cpuwidget:set_width(50)
-cpuwidget:set_background_color("#000000")
-cpuwidget:set_color("#FF5656")
-cpuwidget:set_gradient_colors({ "#FF6050", "#66d077", "#AECF96" })
-
 cputext = widget({type="textbox"})
 vicious.register(cputext, vicious.widgets.cpu, "$2% $3% ")
--- Register widget
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
- --
 
 --MPD
 
@@ -184,7 +282,7 @@ vicious.register(diowidget,vicious.widgets.dio,"${write_mb} ${read_mb}", 3, "sda
 mailicon = widget({type = "imagebox" })
 mailicon.image = image('/home/mahnve/.config/awesome/icons/mail.png')
 mailwidget = widget({type="textbox"})
-vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 241, {"/home/mahnve/Mail/Ahnve", "home/mahnve/Mail/Valtech"})
+vicious.register(mailwidget,vicious.widgets.mdir," $1/$2", 241, {"/home/mahnve/Mail/Ahnve", "/home/mahnve/Mail/Valtech"})
 
 pacmanicon = widget({type = "imagebox" })
 pacmanicon.image = image('/home/mahnve/.config/awesome/icons/pacman.png')
@@ -282,6 +380,7 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         mpdwidget,
         musicicon,
+        pomodoro,
         separator,
         weatherwidget,
         weathericon,
@@ -295,7 +394,6 @@ for s = 1, screen.count() do
       {
         layout = awful.widget.layout.horizontal.leftright,
         cpuicon,
-        cpuwidget,
         spacer,
         cputext,
         cpufreqwidget,
@@ -409,13 +507,17 @@ globalkeys = awful.util.table.join(
               end),
 
     awful.key({ modkey,           }, "p",      function () awful.util.spawn("dmenu_run")  end),
+    awful.key({ modkey,           }, "t",      function () awful.util.spawn("add_todo.sh")  end),
+    awful.key({ modkey, "Shift"   }, "t",      function () awful.util.spawn("list_todos.sh")  end),
 
     awful.key({ }, "XF86AudioPlay",            function () awful.util.spawn("mpc toggle")  end),
     awful.key({ }, "XF86AudioStop",            function () awful.util.spawn("mpc stop")    end),
     awful.key({ }, "XF86AudioNext",            function () awful.util.spawn("mpc next")  end),
     awful.key({ }, "XF86AudioPrev",            function () awful.util.spawn("mpc prev")  end),
     awful.key({ }, "XF86AudioLowerVolume",     function () awful.util.spawn("paminus.sh")  end),
-    awful.key({ }, "XF86AudioRaiseVolume",     function () awful.util.spawn("paplus.sh")  end)
+    awful.key({ }, "XF86AudioRaiseVolume",     function () awful.util.spawn("paplus.sh")  end),
+    awful.key({ modkey }, "e",  revelation.revelation)
+
 )
 
 clientkeys = awful.util.table.join(
