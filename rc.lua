@@ -510,6 +510,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "t",      function () awful.util.spawn("add_todo.sh")  end),
     awful.key({ modkey, "Shift"   }, "t",      function () awful.util.spawn("list_todos.sh")  end),
 
+    awful.key({ }, "Print",                    function () awful.util.spawn("scrot")  end),
+    awful.key({ modkey }, "Print",             function () awful.util.spawn("scrot -s")  end),
+
     awful.key({ }, "XF86AudioPlay",            function () awful.util.spawn("mpc toggle")  end),
     awful.key({ }, "XF86AudioStop",            function () awful.util.spawn("mpc stop")    end),
     awful.key({ }, "XF86AudioNext",            function () awful.util.spawn("mpc next")  end),
