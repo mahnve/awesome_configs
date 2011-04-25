@@ -16,7 +16,7 @@ theme.font      = "profont 8"
 
 -- {{{ Colors
 theme.fg_normal = "#FFFFFF"
-theme.fg_focus  = "#66AA11"
+theme.fg_focus  = "#A6E22E"
 theme.fg_urgent = "#FFFFFF"
 theme.bg_normal = "#000000"
 theme.bg_focus  = "#000000"
@@ -26,7 +26,7 @@ theme.bg_urgent = "#960050"
 -- {{{ Borders
 theme.border_width  = "1"
 theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#18FF00"
+theme.border_focus  = "#A6E22E"
 theme.border_marked = "#CC9393"
 -- }}}
 
