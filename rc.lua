@@ -81,17 +81,6 @@ clockicon.image = image('/home/mahnve/.config/awesome/icons/time.png')
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
-
-
-
-
-
-
-
-
-
-
-
 -- Author: François de Metz
 
 local widget    = widget
@@ -175,19 +164,6 @@ end
 pomodoro:buttons(awful.util.table.join(
                     awful.button({ }, 1, pomodoro_start_timer)
               ))
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 -- CUSTOM
 --
@@ -514,9 +490,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "Print",             function () awful.util.spawn("scrot -s")  end),
 
     awful.key({ }, "XF86AudioPlay",            function () awful.util.spawn("mpc toggle")  end),
+    awful.key({ modkey }, "F12",               function () awful.util.spawn("mpc toggle")  end),
     awful.key({ }, "XF86AudioStop",            function () awful.util.spawn("mpc stop")    end),
     awful.key({ }, "XF86AudioNext",            function () awful.util.spawn("mpc next")  end),
+    awful.key({ modkey }, "F11",               function () awful.util.spawn("mpc next")  end),
     awful.key({ }, "XF86AudioPrev",            function () awful.util.spawn("mpc prev")  end),
+    awful.key({ modkey }, "F10",               function () awful.util.spawn("mpc prev")  end),
     awful.key({ }, "XF86AudioLowerVolume",     function () awful.util.spawn("paminus.sh")  end),
     awful.key({ }, "XF86AudioRaiseVolume",     function () awful.util.spawn("paplus.sh")  end),
     awful.key({ modkey }, "e",  revelation.revelation)
